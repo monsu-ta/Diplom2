@@ -52,6 +52,18 @@ public class RegistrationTests extends BaseTest {
     }
 
     @Test
+    @DisplayName("Регистрация без имени")
+    @Description("Проверка ошибки при регистрации без указания имени")
+    public void testRegistrationWithoutName() {
+        User userWithoutPassword = new User("test@example.com", "password123", null);
+
+        authPage.register(userWithoutPassword)
+                .then()
+                .statusCode(403)
+                .body("message", equalTo("Email, password and name are required fields"));
+    }
+
+    @Test
     @DisplayName("Повторная регистрация существующего пользователя")
     @Description("Проверка ошибки при повторной регистрации пользователя")
     public void testRegisterExistingUser() {
